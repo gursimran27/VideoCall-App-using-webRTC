@@ -90,7 +90,7 @@ const Room = () => {
       const playersCopy = cloneDeep(players);
       delete playersCopy[userId];
       // peer?.disconnect();
-      stream.getTracks().forEach(track => track.stop());
+      // stream.getTracks().forEach(track => track.stop());
       setPlayers(playersCopy);
       // router.push('/')
     };
