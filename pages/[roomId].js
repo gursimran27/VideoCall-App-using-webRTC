@@ -16,6 +16,7 @@ import { UserSquare2 } from "lucide-react";
 
 const Room = () => {
   const socket = useSocket();
+  const router = useRouter()
   const { roomId } = useRouter().query;
   const { peer, myId } = usePeer();
   const { stream } = useMediaStream();
@@ -27,7 +28,7 @@ const Room = () => {
     toggleAudio,
     toggleVideo,
     leaveRoom,
-  } = usePlayer(myId, roomId, peer);
+  } = usePlayer(myId, roomId, peer, stream);
 
   const [users, setUsers] = useState([]);
 
@@ -88,7 +89,10 @@ const Room = () => {
       users[userId]?.close(); //as users contain the call obj
       const playersCopy = cloneDeep(players);
       delete playersCopy[userId];
+      // peer?.disconnect();
+      stream.getTracks().forEach(track => track.stop());
       setPlayers(playersCopy);
+      // router.push('/')
     };
     socket.on("user-toggle-audio", handleToggleAudio);
     socket.on("user-toggle-video", handleToggleVideo);
