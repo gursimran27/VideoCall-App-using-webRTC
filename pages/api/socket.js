@@ -5,7 +5,10 @@ const SocketHandler = (req, res) => {
     if (res.socket.server.io) {
         console.log("socket already running")
     } else {
-        const io = new Server(res.socket.server)
+        const io = new Server(res.socket.server,{
+            cors: {
+              origin: "*", // or specific domain if known
+            },})
         res.socket.server.io = io
     
         io.on('connection', (socket) => {
